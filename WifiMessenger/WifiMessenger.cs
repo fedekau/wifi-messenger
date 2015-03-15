@@ -160,6 +160,8 @@ namespace WifiMessenger
 			browser.ClientDisappeared+=HandleClientDisappeared;
 			browser.ClientMessageChanged += HandleClientMessageChanged;
 
+			//Esto en un futuro deberia ser false, se usa en true para "ver mas dispositivos"
+			//Ya que soy pobre y tengo solo un cel como la gente, y uno viejo que tenia tirado ahi
 			browser.ReceiveFromLocalMachine = true;
 
 			browser.Start ("wifi_msg");
