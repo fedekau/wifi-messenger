@@ -1,0 +1,19 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WifiMessenger", "WifiMessenger\WifiMessenger.shproj", "{3DF46F39-2F26-46C0-91F2-EE0A00681208}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WifiMessenger.Droid", "Droid\WifiMessenger.Droid.csproj", "{2AE56B5F-D5A8-41E9-A17A-40E66CD6AB10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AE56B5F-D5A8-41E9-A17A-40E66CD6AB10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE56B5F-D5A8-41E9-A17A-40E66CD6AB10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE56B5F-D5A8-41E9-A17A-40E66CD6AB10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE56B5F-D5A8-41E9-A17A-40E66CD6AB10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
