@@ -10,51 +10,10 @@ namespace WifiMessenger
 	{
 		private SalaamService service = new SalaamService ("wifi_msg", "WifiMessenger", 15000);
 		private SalaamBrowser browser = new SalaamBrowser();
-		private ObservableCollection<SalaamClient> clientes { get; set; }
-		private ListView listView;
 
 		public App ()
 		{
 			// The root page of your application
-			clientes = new ObservableCollection<SalaamClient> ();
-			clientes.CollectionChanged += HandleNotifyCollectionChangedEventHandler;
-
-			listView = new ListView {
-				ItemsSource = clientes,
-				// Define template for displaying each item.
-				// (Argument of DataTemplate constructor is called for 
-				//      each item; it must return a Cell derivative.)
-				ItemTemplate = new DataTemplate (() => {
-					// Create views with bindings for displaying each property.
-					Label hostName = new Label ();
-					hostName.SetBinding (Label.TextProperty, "HostName");
-
-					Label port = new Label ();
-					port.SetBinding (Label.TextProperty, "Port");
-
-					Label msg = new Label ();
-					msg.SetBinding (Label.TextProperty, "Message");
-
-					// Return an assembled ViewCell.
-					return new ViewCell {
-						View = new StackLayout {
-							Padding = new Thickness (0, 5),
-							Orientation = StackOrientation.Horizontal,
-							Children = {
-								new StackLayout {
-									VerticalOptions = LayoutOptions.Center,
-									Spacing = 0,
-									Children = {
-										hostName,
-										port,
-										msg
-									}
-								}
-							}
-						}
-					};
-				})
-			};
 
 			MainPage = new ContentPage {
 				Content = new StackLayout {
@@ -64,28 +23,21 @@ namespace WifiMessenger
 							XAlign = TextAlignment.Center,
 							Text = "Welcome to Xamarin Forms!"
 						},
-						listView
 					}
 
 				}
 			};
 		}
 
-		private void HandleNotifyCollectionChangedEventHandler (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-		{
-			ObservableCollection<SalaamClient> old = clientes;
-			listView.ItemsSource = null;
-			listView.ItemsSource = old;
-		}
-
 		protected override void OnStart ()
 		{
 			// Handle when your app starts
+
+
 			service.Registered += HandleRegistered;
 			service.CreationFailed += HandleCreationFailed;
 			service.BroadcastFailed += HandleBroadcastFailed;
 			service.Unregistered += HandleUnregistered;
-
 
 			service.Message = "READY_TO_CHAT";
 
@@ -107,16 +59,12 @@ namespace WifiMessenger
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" Se detecto cambio en mensaje de cliente:");
 			System.Console.WriteLine ("\t"+"Cliente: " + e.Client.HostName + ":" + e.Client.Port);
 			System.Console.WriteLine ("\t"+"Nuevo mensaje: " + e.Client.Message);	
-
-			clientes.Add (e.Client);
 		}
 
 		private void HandleClientDisappeared (object sender, SalaamClientEventArgs e){
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" Un cliente ha desaparecido:");
 			System.Console.WriteLine ("\t"+"Cliente: " + e.Client.HostName + ":" + e.Client.Port);
 			System.Console.WriteLine ("\t"+"Mensaje: " + e.Client.Message);	
-
-			clientes.Remove (e.Client);
 		}
 
 		private void HandleClientAppeared (object sender, SalaamClientEventArgs e){
@@ -166,9 +114,7 @@ namespace WifiMessenger
 
 			browser.Start ("wifi_msg");
 		}
-
-
-
+			
 		private void HandleCreationFailed(object sender, EventArgs e){
 			System.Console.WriteLine ("[Salaam Service] "+ DateTime.Now +" Ocurrio un error al iniciar el servicio");
 		}
