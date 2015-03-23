@@ -10,6 +10,10 @@ namespace WifiMessenger
 	{
 		private SalaamService service = new SalaamService ("wifi_msg", "WifiMessenger", 15000);
 		private SalaamBrowser browser = new SalaamBrowser();
+		private Label result = new Label {
+			XAlign = TextAlignment.Center,
+			Text = "Welcome to Xamarin Forms!"
+		};
 
 		public App ()
 		{
@@ -20,10 +24,7 @@ namespace WifiMessenger
 				Content = new StackLayout {
 					VerticalOptions = LayoutOptions.Center,
 					Children = {
-						new Label {
-							XAlign = TextAlignment.Center,
-							Text = "Welcome to Xamarin Forms!"
-						},
+						result,
 					}
 
 				}
@@ -57,36 +58,43 @@ namespace WifiMessenger
 		}
 
 		private void HandleClientMessageChanged (object sender, SalaamClientEventArgs e){
+			result.Text = "Se detecto cambio en mensaje de cliente " + e.Client.HostName;
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" Se detecto cambio en mensaje de cliente:");
 			System.Console.WriteLine ("\t"+"Cliente: " + e.Client.HostName + ":" + e.Client.Port);
 			System.Console.WriteLine ("\t"+"Nuevo mensaje: " + e.Client.Message);	
 		}
 
 		private void HandleClientDisappeared (object sender, SalaamClientEventArgs e){
+			result.Text = "Un cliente ha desaparecido " + e.Client.HostName;
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" Un cliente ha desaparecido:");
 			System.Console.WriteLine ("\t"+"Cliente: " + e.Client.HostName + ":" + e.Client.Port);
 			System.Console.WriteLine ("\t"+"Mensaje: " + e.Client.Message);	
 		}
 
 		private void HandleClientAppeared (object sender, SalaamClientEventArgs e){
+			result.Text = "Un cliente ha aparecido " + e.Client.HostName;
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" Un cliente ha aparecido:");
 			System.Console.WriteLine ("\t"+"Cliente: " + e.Client.HostName + ":" + e.Client.Port);
 			System.Console.WriteLine ("\t"+"Mensaje: " + e.Client.Message);	
 		}
 
 		private void HandleBrowserFailed (object sender, EventArgs e){
+			result.Text = "El buscador ha fallado al buscar clientes..";
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" El buscador ha fallado al buscar clientes");
 		}
 
 		private void HandleStarted (object sender, EventArgs e){
+			result.Text = "El buscador se ha iniciado correctamente..";
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" El buscador se ha iniciado correctamente");
 		}
 
 		private void HandleStartFailed (object sender, EventArgs e){
+			result.Text = " El buscador ha fallado al iniciar..";
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" El buscador ha fallado al iniciar");
 		}
 
 		private void HandleStopped (object sender, EventArgs e){
+			result.Text = "El buscador se ha detenidido correctamente..";
 			System.Console.WriteLine ("[Salaam Browser] "+ DateTime.Now +" El buscador se ha detenidido correctamente");
 		}
 
@@ -99,6 +107,7 @@ namespace WifiMessenger
 		}
 
 		private void HandleRegistered(object sender, EventArgs e){
+			result.Text = "Servicio iniciado correctamente..";
 			System.Console.WriteLine ("[Salaam Service] "+ DateTime.Now +" Servicio iniciado correctamente");
 
 			browser.Started += HandleStarted;
@@ -117,14 +126,17 @@ namespace WifiMessenger
 		}
 			
 		private void HandleCreationFailed(object sender, EventArgs e){
+			result.Text = "Ocurrio un error al iniciar el servicio..";
 			System.Console.WriteLine ("[Salaam Service] "+ DateTime.Now +" Ocurrio un error al iniciar el servicio");
 		}
 
 		private void HandleBroadcastFailed(object sender, EventArgs e){
+			result.Text = "No se pudo enviar mensaje de descubrimiento..";
 			System.Console.WriteLine ("[Salaam Service] "+ DateTime.Now +" No se pudo enviar mensaje de descubrimiento");
 		}
 
 		private void HandleUnregistered(object sender, EventArgs e){
+			result.Text = "Servicio terminado correctamente..";
 			System.Console.WriteLine ("[Salaam Service] "+ DateTime.Now +" Servicio terminado correctamente");
 		}
 	}
