@@ -78,6 +78,9 @@
     <AndroidResource Include="Resources\drawable-hdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
+    <AndroidResource Include="Resources\drawable\enviado.png" />
+    <AndroidResource Include="Resources\drawable\monkey.png" />
+    <AndroidResource Include="Resources\drawable\recibido.png" />
   </ItemGroup>
   <Import Project="..\WifiMessenger\WifiMessenger.projitems" Label="Shared" Condition="Exists('..\WifiMessenger\WifiMessenger.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
