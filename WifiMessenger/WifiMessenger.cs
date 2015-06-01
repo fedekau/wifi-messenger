@@ -25,14 +25,13 @@ namespace WifiMessenger
 		public ObservableCollection<Mensaje> mensajes = new ObservableCollection<Mensaje>();
 		// Create the ListView.
 		ListView historial = new ListView
-		{
+		{	
 			// Source of data items.
 			//ItemsSource = mensajes,
 
 			// Define template for displaying each item.
 			// (Argument of DataTemplate constructor is called for 
 			//      each item; it must return a Cell derivative.)
-
 			ItemTemplate = new DataTemplate(() =>
 				{
 					// Create views with bindings for displaying each property.
@@ -40,15 +39,18 @@ namespace WifiMessenger
 
 					//Defino etiqueta izquierda
 					Label nameLabelizq = new Label();
+					nameLabelizq.FontSize= 18;
+					nameLabelizq.TextColor=Color.Black;
 					nameLabelizq.SetBinding(Label.TextProperty, "MensajeIzq");
 					//Defino etiqueta derecha
 					Label nameLabelder = new Label();
+					nameLabelder.FontSize= 18;
+					nameLabelder.TextColor=Color.Black;
 					nameLabelder.SetBinding(Label.TextProperty, "MensajeDer");
 					//Defino 
 					Image img = new Image { Aspect = Aspect.AspectFit };
 					img.SetBinding(Image.SourceProperty, "BoxColor");
 					img.SetBinding(Image.HorizontalOptionsProperty, "ubicBox");
-
 					//Stack msj izq
 					StackLayout st1= new StackLayout();
 					st1.VerticalOptions=LayoutOptions.Center;
@@ -64,9 +66,9 @@ namespace WifiMessenger
 
 					// Return an assembled ViewCell.
 					return new ViewCell
-					{
+					{	
 						View = new StackLayout
-						{
+						{	
 							Padding = new Thickness(0, 5),
 							Orientation = StackOrientation.Horizontal,
 							Children = 
@@ -77,6 +79,7 @@ namespace WifiMessenger
 
 							}
 							}
+
 					};
 
 				}),
@@ -88,24 +91,27 @@ namespace WifiMessenger
 
 
 		Button BotonEnviar = new Button
-		{
-			Text = "Enviar!",
+		{	
+			Text = "Enviar !",
+			TextColor = Color.White,
 			Font = Font.SystemFontOfSize(NamedSize.Large),
 			BorderWidth = 1,
 			HorizontalOptions = LayoutOptions.Center,
-			//BackgroundColor = Color.Blue,
+			VerticalOptions = LayoutOptions.End,
+			BackgroundColor = Color.Green,
 
 		};
 		Entry entryCell = new Entry(){
-			Placeholder = "Escriba su mensaje aquí"
+			VerticalOptions = LayoutOptions.End,
+			TextColor = Color.Black,
+			Text="Escriba su mensaje aquí..",
 		} ;
 
 		public App ()
 		{
-
 			// The root page of your application
-
 			MainPage = new ContentPage {
+				
 				Content = new StackLayout {
 					VerticalOptions = LayoutOptions.Center,
 					Children = {
@@ -117,6 +123,7 @@ namespace WifiMessenger
 				}
 
 			};
+			MainPage.BackgroundColor = Color.White;
 			first = true;
 		}
 
@@ -135,10 +142,17 @@ namespace WifiMessenger
 			service.Register ();
 
 			BotonEnviar.Clicked += (sender, e) => { 
-				System.Console.WriteLine (entryCell.Text);
+				if(entryCell.Text!="Escriba su mensaje aquí.."){
+					System.Console.WriteLine (entryCell.Text);
+					service.Message=entryCell.Text;
+					entryCell.Text="";
+				}
+			};
 
-				service.Message=entryCell.Text;
-				entryCell.Text=null;
+			entryCell.Focused +=(sender, e) => { 
+				if(entryCell.Text=="Escriba su mensaje aquí.."){
+					entryCell.Text="";
+				}
 			};
 
 			historial.ItemSelected+= (sender, e) => { 
@@ -181,7 +195,8 @@ namespace WifiMessenger
 			System.Console.WriteLine ("\t"+"Cliente: " + e.Client.HostName + ":" + e.Client.Port);
 			System.Console.WriteLine ("\t"+"Nuevo mensaje: " + e.Client.Message);
 			if (e.Client.Address.Equals(ip)) {
-				Mensaje m = new Mensaje ( e.Client.Message,"", "@drawable/enviado", LayoutOptions.End, LayoutOptions.End, LayoutOptions.EndAndExpand);
+				string mensaje = e.Client.Message;
+				Mensaje m = new Mensaje ( mensaje,"", "@drawable/monkey", LayoutOptions.End, LayoutOptions.End, LayoutOptions.EndAndExpand);
 				mensajes.Add (m);
 				//UPDATE DE MENSAJES 
 				historial.ItemsSource=null;
@@ -189,8 +204,9 @@ namespace WifiMessenger
 
 				// VOY AL FINAL DE LA CONVERSACIÓN
 				historial.ScrollTo(m, ScrollToPosition.End, true );
+				//DependencyService.Get<INotificacion>().Notificar(mensaje);
 			} else {
-				Mensaje m = new Mensaje ("", e.Client.Message, "@drawable/recibido", LayoutOptions.Start, LayoutOptions.Start, LayoutOptions.Start);
+				Mensaje m = new Mensaje ("", e.Client.Message, "@drawable/monkey", LayoutOptions.Start, LayoutOptions.Start, LayoutOptions.Start);
 				mensajes.Add (m);
 				//UPDATE DE MENSAJES 
 				historial.ItemsSource=null;
@@ -198,6 +214,7 @@ namespace WifiMessenger
 
 				// VOY AL FINAL DE LA CONVERSACIÓN
 				historial.ScrollTo(m, ScrollToPosition.End, true );
+				DependencyService.Get<INotificacion>().Notificar(e.Client.Message);
 			}
 
 

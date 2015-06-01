@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DiscoveryService\SalaamClientEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DiscoveryService\SalaamService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mensaje.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)INotificacion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)DiscoveryService\" />
